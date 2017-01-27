@@ -359,7 +359,7 @@
 
 			<h2 id="accountExpand">Welcome, <?php echo $_SESSION['MEM_FNAME'].' '.$_SESSION['MEM_LNAME']; ?> </h2>
 			<div class="card">
-			  	<img src="images/person_fillin_male.png" alt="Avatar" class="img-rounded" style="width: 25%; height:25%;">
+			  	<img src="images/person_fillin_male.png" alt="Avatar" class="img-rounded" style="width: 40%; height:25%;">
 
 		    	<table class="table table-striped">
 					<tr>
