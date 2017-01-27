@@ -17,7 +17,7 @@ include('includes/dbconn.php');
 			<h1 class="sub-header">Projects</h1>			
 
 			<p>Here at Steffine Innovations we encourage you to submit an idea and watch it come to life!</p>
-				<a class="btn btn-primary btn-sm" href="">Add a Project</a>
+				<a class="btn btn-primary btn-lg" href="">Add a Project</a>
 			  <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->		
 					
 		</div>

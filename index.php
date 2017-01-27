@@ -61,8 +61,12 @@ if ($_POST) {
 		// If the user is an Admin we'll set his privledges
 		if ($row['MEM_STATUS'] == "Admin") {
 			$_SESSION['is_admin'] = true;
-		} else
+			$_SESSION['publisher'] = true;
+		} else {
 			$_SESSION['is_admin'] = NULL;
+			$_SESSION['publisher'] = NULL;
+		}
+
 
 	} else {
 		$msg = "<div class=\"alert alert-danger\" role=\"alert\"><p>Incorrect Username/Password</p></div>";

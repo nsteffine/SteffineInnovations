@@ -402,6 +402,13 @@
 									$mysqlLastLogin = date( 'F d, Y g:i a', $last_login ); 
 									echo $mysqlLastLogin; ?></td>
 					</tr>
+					<tr>
+						<th>My Permissions</th>
+						<td>
+							<?php if($_SESSION['is_admin']) { echo "<p>Administrator</p>";} ?>
+							<?php if($_SESSION['publisher']) { echo "<p>Publisher</p>";} ?>
+						</td>
+					</tr>
 				</table>
 
 			</div>
@@ -717,9 +724,10 @@
             	<?php if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
             		$_SESSION['edit_other_id'] = $row['MEM_ID']; ?>
             		<div class="table-responsive my-info accountExpand">
-	            		<table class="table table-striped">
-		            		<h2 id="accountExpand"><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME']; ?> </h2>
-			            	<form action="account.php?empid=<?php echo $row['MEM_ID']; ?>" method="post">
+            			<h2><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME']; ?> </h2>
+			            <form action="account.php?empid=<?php echo $row['MEM_ID']; ?>" method="post">
+	            			<table class="table table-striped">
+		            		
 								<tr>
 									<th>ID</th>
 									<td><?php echo $row['MEM_ID']; ?></td>
@@ -767,13 +775,14 @@
 									<td><?php $last_login = strtotime( $row['MEM_LASTLOGIN'] );
 												$mysqlLastLogin = date( 'F d, Y g:i a', $last_login ); 
 												echo $mysqlLastLogin; ?></td>
-								</tr>
-								<tr class="buttontable">
-									<td><button type="submit" name="submit" class="buttons">Submit</button></td>
-									<td><button type="reset" name="reset" class="buttons">Reset</button></td>
-								</tr>
-							</form>
-						</table>
+								</tr>							
+							</table>
+							
+							<div class="buttontable">
+								<button type="submit" name="submit" class="buttons">Submit</button>
+								<button type="reset" name="reset" class="buttons">Reset</button>
+							</div>
+						</form>
 					</div>
 				<?php } ?>
 				
