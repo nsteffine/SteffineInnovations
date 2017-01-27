@@ -21,7 +21,7 @@
 
 
 
-	if (isset($_GET['editOther'])) {dfdf
+	if (isset($_GET['editOther'])) {
 		
 		$_SESSION['edit_other'] = true;
 		$other = $_GET['editOther'];
@@ -263,6 +263,7 @@
 
 
 
+
 	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\"
 				FROM MEMBER, MESSAGES
 				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\";";
@@ -358,7 +359,7 @@
 
 			<h2 id="accountExpand">Welcome, <?php echo $_SESSION['MEM_FNAME'].' '.$_SESSION['MEM_LNAME']; ?> </h2>
 			<div class="card">
-			  	<img src="images/person_fillin_male.png" alt="Avatar" class="img-rounded" style="width: 25%; height:25%;">
+			  	<img src="images/person_fillin_male.png" alt="Avatar" class="img-rounded" style="width: 40%; height:25%;">
 
 		    	<table class="table table-striped">
 					<tr>
@@ -445,21 +446,22 @@
 				<?php $_SESSION['reset_password'] = NULL; } ?>
 
 				<h2 style="text-align: center;">Employees</h2>
-	            <table class="table table-striped table-hover table-condensed">
-					<tr>
-						<th>Name</th>
-						<th>Status</th>
-						<th>Title</th>
-					</tr>
-					<?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>			
-						<tr>							
-							<td><a href="account.php?id=<?php echo $row['MEM_ID']; ?>"><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME'] ?></a></td>
-							<td><?php echo $row['MEM_STATUS']; ?>
-							<td><?php echo $row['MEM_TITLE'] ?></td>														
+		            <table class="table table-striped table-hover table-condensed">
+						<tr>
+							<th>Name</th>
+							<th>Status</th>
+							<th>Title</th>
 						</tr>
-					<?php } ?>
-				</table>					
-			</div>
+						<?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>			
+							<tr>							
+								<td><a href="account.php?id=<?php echo $row['MEM_ID']; ?>"><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME'] ?></a></td>
+								<td><?php echo $row['MEM_STATUS']; ?>
+								<td><?php echo $row['MEM_TITLE'] ?></td>							
+							</tr>
+						<?php } ?>
+					</table>
+					
+				</div>
 
 <!------------------------------------------------------------
 

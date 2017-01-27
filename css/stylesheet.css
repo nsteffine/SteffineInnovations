@@ -123,8 +123,9 @@ footer {
 
 .footerLinks {
 	font-size: 15px;
-	margin: auto;
+	margin: 10px auto;
 	width: 20%;
+	text-align: center;
 }
 
 .footer p {
