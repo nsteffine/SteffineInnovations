@@ -254,7 +254,7 @@
 		$message = $_POST['message'];
 		$messageTo = $_SESSION['userID'];
 
-		$query = "INSERT INTO MESSAGES (`MESS_ID`, `MESS_MESSAGE`, `MESS_TIME_SENT`, `MESS_TO`, `MESS_FROM`) VALUES (NULL, \"$message\", NULL, \"$messageTo\", \"$mem_id\")";
+		$query = "INSERT INTO MESSAGES (`MESS_ID`, `MESS_MESSAGE`, `MESS_TIME_SENT`, `MESS_TO`, `MESS_FROM`) VALUES (NULL, \"$message\", NOW(), \"$messageTo\", \"$mem_id\")";
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
 
@@ -266,7 +266,7 @@
 
 	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\"
 				FROM MEMBER, MESSAGES
-				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\";";
+				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\" && MESSAGES.MESS_READ = FALSE;";
 	$stmt5 = $conn->prepare($query5);
 	$stmt5->execute();
 
@@ -401,6 +401,13 @@
 						<td><?php $last_login = strtotime( $_SESSION['MEM_LASTLOGIN'] );
 									$mysqlLastLogin = date( 'F d, Y g:i a', $last_login ); 
 									echo $mysqlLastLogin; ?></td>
+					</tr>
+					<tr>
+						<th>My Permissions</th>
+						<td>
+							<?php if($_SESSION['is_admin']) { echo "<p>Administrator</p>";} ?>
+							<?php if($_SESSION['publisher']) { echo "<p>Publisher</p>";} ?>
+						</td>
 					</tr>
 				</table>
 
@@ -588,7 +595,7 @@
 				  <!-- Modal content -->
 				  	<div class="modal-content">
 				  		<span class="close1">&times;</span>
-				    	<h2 class="bg-danger">Delete User</h2>
+				    	<h2>Delete User</h2>
 				    	<p>Are you sure you want to delete this user?</p>
 				    	<a href="account.php?deleteId=<?php echo $row['MEM_ID']; ?>" class="btn btn-danger">Yes</a>
 				    	<a href="#" id="noBtn1" class="btn btn-default">No</a>
@@ -717,9 +724,10 @@
             	<?php if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
             		$_SESSION['edit_other_id'] = $row['MEM_ID']; ?>
             		<div class="table-responsive my-info accountExpand">
-	            		<table class="table table-striped">
-		            		<h2 id="accountExpand"><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME']; ?> </h2>
-			            	<form action="account.php?empid=<?php echo $row['MEM_ID']; ?>" method="post">
+            			<h2><?php echo $row['MEM_FNAME'].' '.$row['MEM_LNAME']; ?> </h2>
+			            <form action="account.php?empid=<?php echo $row['MEM_ID']; ?>" method="post">
+	            			<table class="table table-striped">
+		            		
 								<tr>
 									<th>ID</th>
 									<td><?php echo $row['MEM_ID']; ?></td>
@@ -767,13 +775,14 @@
 									<td><?php $last_login = strtotime( $row['MEM_LASTLOGIN'] );
 												$mysqlLastLogin = date( 'F d, Y g:i a', $last_login ); 
 												echo $mysqlLastLogin; ?></td>
-								</tr>
-								<tr class="buttontable">
-									<td><button type="submit" name="submit" class="buttons">Submit</button></td>
-									<td><button type="reset" name="reset" class="buttons">Reset</button></td>
-								</tr>
-							</form>
-						</table>
+								</tr>							
+							</table>
+
+							<div class="buttontable">
+								<button type="submit" name="submit" class="buttons">Submit</button>
+								<button type="reset" name="reset" class="buttons">Reset</button>
+							</div>
+						</form>
 					</div>
 				<?php } ?>
 				

@@ -10,11 +10,38 @@
 	$msg = '';
 	$mem_id = $_SESSION['MEM_ID'];
 
-	$query = "SELECT MEMBER.MEM_USERNAME, MESSAGES.MESS_ID
+	$query = "SELECT MEMBER.MEM_USERNAME, MESSAGES.MESS_ID, MESSAGES.MESS_MESSAGE, MESSAGES.MESS_TIME_SENT
 				FROM MEMBER, MESSAGES
-				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\";";
+				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && MESSAGES.MESS_TO = \"$mem_id\";";
 	$stmt = $conn->prepare($query);
 	$stmt->execute();
+
+
+
+
+	if (isset($_GET['message'])) {
+
+		$_SESSION['get_message'] = true;
+		
+		$mess_id = $_GET['message'];
+
+		$query2 = "SELECT MESS_MESSAGE FROM MESSAGES WHERE MESS_ID = \"$mess_id\" && MESS_TO = \"$mem_id\";";
+		$query3 = "UPDATE MESSAGES SET MESS_READ = TRUE WHERE MESS_ID = \"$mess_id\";";
+		$stmt2 = $conn->prepare($query2);
+		$stmt3 = $conn->prepare($query3);
+		$stmt2->execute();
+		$stmt3->execute();
+	} else
+		$_SESSION['get_message'] = NULL;
+
+
+
+
+	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\"
+				FROM MEMBER, MESSAGES
+				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\" && MESSAGES.MESS_READ = FALSE;";
+	$stmt5 = $conn->prepare($query5);
+	$stmt5->execute();
 
 ?>
 
@@ -36,9 +63,18 @@
 						</div><!-- /.row -->
 	      			</form>
 	      		</li>
-	      		<li><h3>Inbox</h3></li>
+	      		<li><h3>Inbox <span class="badge"><?php if ($row5 = $stmt5->fetch(PDO::FETCH_ASSOC)) { echo $row5['num_username']; } ?></span></a></h3></li>
 	      		<?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
-	            	<li><a href="messages.php?message=<?php echo $row['MESS_ID'] ?>"><?php echo $row['MEM_USERNAME']; ?></a></li>
+	            	<li>
+	            		<a href="messages.php?message=<?php echo $row['MESS_ID'] ?>"><?php echo $row['MEM_USERNAME']; ?><br>
+		            		<span>
+		            			<?php 
+									$phpdate = strtotime( $row['MESS_TIME_SENT'] );
+									$mysqldate = date( 'M d, y g:i a', $phpdate ); 
+									echo $mysqldate; ?>
+		            		</span>
+	            		</a>
+	            	</li>
 	            <?php } ?>
 	        </ul>
 	        <ul class="nav nav-sidebar">
@@ -48,6 +84,12 @@
 
 
         <h2>Messages</h2>
+        <hr>
+        <?php if(isset($_SESSION['get_message'])) { ?>
+	        <?php if ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) { ?>
+	        	<p><?php echo $row2['MESS_MESSAGE']; ?></p>
+	        <?php } ?>
+        <?php } ?>
 	</div>
 
 	<?php include('includes/scripts.php'); ?>
