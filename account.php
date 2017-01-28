@@ -266,7 +266,7 @@
 
 	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\"
 				FROM MEMBER, MESSAGES
-				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\" && MESSAGES.MESS_READ = FALSE;";
+				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && MESSAGES.MESS_TO = \"$mem_id\" && MESSAGES.MESS_READ = FALSE;";
 	$stmt5 = $conn->prepare($query5);
 	$stmt5->execute();
 
