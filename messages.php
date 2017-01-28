@@ -25,7 +25,7 @@
 		
 		$mess_id = $_GET['message'];
 
-		$query2 = "SELECT MESS_MESSAGE FROM MESSAGES WHERE MESS_ID = \"$mess_id\";";
+		$query2 = "SELECT MESS_MESSAGE FROM MESSAGES WHERE MESS_ID = \"$mess_id\" && MESS_TO = \"$mem_id\";";
 		$query3 = "UPDATE MESSAGES SET MESS_READ = TRUE WHERE MESS_ID = \"$mess_id\";";
 		$stmt2 = $conn->prepare($query2);
 		$stmt3 = $conn->prepare($query3);
