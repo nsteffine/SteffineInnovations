@@ -10,7 +10,7 @@
 	$msg = '';
 	$mem_id = $_SESSION['MEM_ID'];
 
-	$query = "SELECT MEMBER.MEM_USERNAME, MESSAGES.MESS_ID, MESSAGES.MESS_MESSAGE, MESSAGES.MESS_TIME_SENT
+	$query = "SELECT MEMBER.MEM_USERNAME, MESSAGES.MESS_ID, MESSAGES.MESS_MESSAGE, MESSAGES.MESS_TIME_SENT, MESSAGES.MESS_READ
 				FROM MEMBER, MESSAGES
 				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && MESSAGES.MESS_TO = \"$mem_id\";";
 	$stmt = $conn->prepare($query);
@@ -22,6 +22,7 @@
 	if (isset($_GET['message'])) {
 
 		$_SESSION['get_message'] = true;
+
 		
 		$mess_id = $_GET['message'];
 
@@ -37,7 +38,7 @@
 
 
 
-	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\"
+	$query5 = "SELECT COUNT(MEMBER.MEM_USERNAME) AS \"num_username\", MESSAGES.MESS_READ
 				FROM MEMBER, MESSAGES
 				WHERE MESSAGES.MESS_FROM = MEMBER.MEM_ID && messages.MESS_TO = \"$mem_id\" && MESSAGES.MESS_READ = FALSE;";
 	$stmt5 = $conn->prepare($query5);
@@ -73,6 +74,9 @@
 									$mysqldate = date( 'M d, y g:i a', $phpdate ); 
 									echo $mysqldate; ?>
 		            		</span>
+		            		<?php if ($row['MESS_READ'] == FALSE) { ?>
+		            			<span class="badge">1</span>
+		            		<?php } ?>
 	            		</a>
 	            	</li>
 	            <?php } ?>

@@ -12,7 +12,7 @@
 				<td><a href="#">About us</a></td>
 			</tr>
 		</table>
-		<p>Copyright &copy; Steffine Innovations 2016 | All Rights Reserved</p>
+		<p>Copyright &copy; Steffine Innovations 2016-<?php echo date('Y'); ?> | All Rights Reserved</p>
 	</footer>
 
 </html>
